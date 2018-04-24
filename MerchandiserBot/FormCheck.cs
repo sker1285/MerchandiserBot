@@ -14,7 +14,7 @@ namespace MerchandiserBot
         [Required]
         public DateTime? BirthCheck { get; set; }
         [Required]
-        public string? Gender { get; set; }
+        public string Gender { get; set; }
 
 
 
