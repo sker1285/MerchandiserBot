@@ -9,6 +9,7 @@ namespace MerchandiserBot.Dialogs
     public class RootDialog : IDialog<object>
     {
         static string option;
+        static string prodOption;
 
         public Task StartAsync(IDialogContext context)
         {
@@ -42,7 +43,7 @@ namespace MerchandiserBot.Dialogs
             }
             else if (option.Equals("2")) //商品搜尋
             {
-
+                context.Call(new ProdSearch.Dialogs.ProdSearchDialog(), ProdSearchDialogResumeAfter);
             }
             else if (option.Equals("3")) //推播訊息
             {
@@ -73,7 +74,32 @@ namespace MerchandiserBot.Dialogs
 
 
         /************************* ProdSearch *************************/
+        //選擇商品搜尋方式 ---> 各自Dialog
+        private async Task ProdSearchDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            prodOption = ProdSearch.Dialogs.ProdSearchDialog.GetProdSearchSelc();
+            if (prodOption.Equals("險種分類"))
+            {
+                context.Call(new ProdSearch.Dialogs.ProdSearch_CatalogDialog(), PS_CataKeyDialogResumeAfter);
+            }
+            else if (prodOption.Equals("關鍵字"))
+            {
+                context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), PS_CataKeyDialogResumeAfter);
+            }
+            
+        }
 
+        //結束以 關鍵字 或 險種分類 後要填寫的表格
+        private async Task PS_CataKeyDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            context.Call(new ProdSearch.Dialogs.ProdSearch_FormDialog(), ProdSearchFormDialogResumeAfter);
+        }
+
+        //顯示產品
+        private async Task ProdSearchFormDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), null);
+        }
 
 
         /************************* PushMsg *************************/

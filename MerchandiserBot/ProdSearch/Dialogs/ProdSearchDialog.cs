@@ -61,6 +61,9 @@ namespace MerchandiserBot.ProdSearch.Dialogs
 
         }
 
-        static string ProdSearchSelc => ProdSearch_Selc;
+        public static string GetProdSearchSelc()
+        {
+            return ProdSearch_Selc;
+        }
     }
 }
