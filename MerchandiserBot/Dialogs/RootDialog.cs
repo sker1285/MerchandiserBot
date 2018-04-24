@@ -50,6 +50,9 @@ namespace MerchandiserBot.Dialogs
             }
         }
 
+
+
+        /************************* PwdSetting *************************/
         // 身分認證
         private async Task CertifiedDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
@@ -68,6 +71,12 @@ namespace MerchandiserBot.Dialogs
 
         }
 
+
+        /************************* ProdSearch *************************/
+
+
+
+        /************************* PushMsg *************************/
 
 
     }
