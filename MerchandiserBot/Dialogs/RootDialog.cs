@@ -60,6 +60,11 @@ namespace MerchandiserBot.Dialogs
         // 資料驗證
         private async Task VerificationDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
+            context.Call(new PwdSetting.Dialogs.PwdResetDialog(), PwdResetDialogResumeAfter);
+
+        }
+        private async Task PwdResetDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
 
         }
 
