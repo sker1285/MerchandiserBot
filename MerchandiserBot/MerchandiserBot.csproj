@@ -140,6 +140,7 @@
     <Compile Include="ProdSearch\Dialogs\ProdSearch_ShowProdDialog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PwdSetting\Dialogs\CertifiedDialog.cs" />
+    <Compile Include="PwdSetting\Dialogs\PwdResetDialog.cs" />
     <Compile Include="PwdSetting\Dialogs\VerificationDialog.cs" />
     <Compile Include="FormCheck.cs" />
   </ItemGroup>

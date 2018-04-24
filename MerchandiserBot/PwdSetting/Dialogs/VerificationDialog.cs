@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -39,9 +40,18 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             if (state == 2 )
             {
                 ID = message.Text;
-                //await context.PostAsync("請輸入您的[生日]" +
-                //                   "\n\r" + " OOO年OO月OO日(ex.070/01月01日)");
-                await ShowOptionsAsync(context);
+                if (IsValidID(ID)) //驗證輸入格式
+                {
+                    //await context.PostAsync("請輸入您的[生日]" +
+                    //                   "\n\r" + " OOO年OO月OO日(ex.070/01月01日)");
+                    await ShowOptionsAsync(context);
+                }
+                else {
+                    await context.PostAsync("輸入格式不符，請重新輸入[身分證字號]");
+                    state--;
+                }
+
+              
 
                
             }
@@ -95,8 +105,6 @@ namespace MerchandiserBot.PwdSetting.Dialogs
                             {
                                 Columns = new List<Column>()
                                 {
-
-
                                     new Column()
                                     {
                                          Size = ColumnSize.Stretch,
@@ -151,6 +159,14 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             await context.PostAsync(reply, CancellationToken.None);
 
             context.Wait(MessageReceivedAsync);
+        }
+
+        public static bool IsValidID(string strIn)
+
+        {
+            // Return true if strIn is in valid e-mail format.
+            return Regex.IsMatch(strIn,
+                   @"[a-zA-Z]\d{9}$");
         }
 
         public static string getname() { return name; }
