@@ -137,6 +137,7 @@
     <Compile Include="ProdSearch\Dialogs\ProdSearch_CatalogDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_FormDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_KeywordDialog.cs" />
+    <Compile Include="ProdSearch\Dialogs\ProdSearch_ShowProdDialog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PwdSetting\Dialogs\CertifiedDialog.cs" />
     <Compile Include="PwdSetting\Dialogs\VerificationDialog.cs" />

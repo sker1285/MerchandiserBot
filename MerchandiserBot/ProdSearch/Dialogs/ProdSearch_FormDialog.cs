@@ -43,7 +43,6 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             {
                 // FromCheck could not be parsed
                 await context.PostAsync("請填寫完整");
-
                 return;
             }
 

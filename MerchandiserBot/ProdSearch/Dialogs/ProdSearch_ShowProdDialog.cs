@@ -6,21 +6,19 @@ using Microsoft.Bot.Connector;
 namespace MerchandiserBot.ProdSearch.Dialogs
 {
     [Serializable]
-    public class ProdSearch_KeywordDialog : IDialog<IMessageActivity>
+    public class ProdSearch_ShowProdDialog : IDialog<IMessageActivity>
     {
-        public async Task StartAsync(IDialogContext context)
+        public Task StartAsync(IDialogContext context)
         {
-            await context.PostAsync("請輸入關鍵字：");
             context.Wait(MessageReceivedAsync);
+
+            return Task.CompletedTask;
         }
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var activity = await result;
-            if (result!=null)
-            {
-                context.Done(context);
-            }
+
             // TODO: Put logic for handling user message here
         }
     }
