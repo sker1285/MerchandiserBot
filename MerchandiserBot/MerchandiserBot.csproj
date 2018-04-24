@@ -131,6 +131,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="ProdSearch\Dialogs\ProdSearchDialog.cs" />
+    <Compile Include="ProdSearch\Dialogs\ProdSearch_CatalogDialog.cs" />
+    <Compile Include="ProdSearch\Dialogs\ProdSearch_FormDialog.cs" />
+    <Compile Include="ProdSearch\Dialogs\ProdSearch_KeywordDialog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
