@@ -26,6 +26,7 @@ namespace MerchandiserBot.Dialogs
             await context.PostAsync($"You sent {activity.Text} which was {length} characters");
 
             context.Wait(MessageReceivedAsync);
+
         }
     }
 }
