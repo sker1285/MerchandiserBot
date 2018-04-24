@@ -43,6 +43,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AdaptiveCards, Version=0.5.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AdaptiveCards.0.5.1\lib\net452\AdaptiveCards.dll</HintPath>
+    </Reference>
     <Reference Include="Autofac, Version=4.8.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.4.8.0\lib\net45\Autofac.dll</HintPath>
     </Reference>
@@ -135,6 +138,9 @@
     <Compile Include="ProdSearch\Dialogs\ProdSearch_FormDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_KeywordDialog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PwdSetting\Dialogs\CertifiedDialog.cs" />
+    <Compile Include="PwdSetting\Dialogs\VerificationDialog.cs" />
+    <Compile Include="TimeCheck.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
@@ -149,7 +155,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PushMsg\" />
-    <Folder Include="PwdSetting\Dialogs\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

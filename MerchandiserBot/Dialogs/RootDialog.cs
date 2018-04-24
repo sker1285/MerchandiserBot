@@ -30,24 +30,40 @@ namespace MerchandiserBot.Dialogs
 
 
         }
+
+        // HomeDialog
         private async Task SendWelcomeMessageAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             await context.PostAsync("Hi, I'm  Moviebot. Let's get started.");
             option = HomeDialog.getoption();
-            if (option.Equals("1"))
+            if (option.Equals("1")) //忘記密碼
+            {
+                context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
+            }
+            else if (option.Equals("2")) //商品搜尋
             {
 
             }
-            else if (option.Equals("2"))
-            {
-
-            }
-            else if (option.Equals("3"))
+            else if (option.Equals("3")) //推播訊息
             {
 
             }
         }
 
-        
+        // 身分認證
+        private async Task CertifiedDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            context.Call(new PwdSetting.Dialogs.VerificationDialog(), VerificationDialogResumeAfter);
+
+        }
+
+        // 資料驗證
+        private async Task VerificationDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+
+        }
+
+
+
     }
 }

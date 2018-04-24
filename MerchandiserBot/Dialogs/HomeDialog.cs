@@ -48,6 +48,10 @@ namespace MerchandiserBot.Dialogs
                 option = "3";
                 context.Done(context);
             }
+            else
+            {
+                await context.PostAsync("請選擇表單中選項");
+            }
         }
         public static IList<Attachment> GetCardsMovie()
         {
