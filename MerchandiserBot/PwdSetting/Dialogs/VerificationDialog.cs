@@ -59,10 +59,10 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             {
                 dynamic value = message.Value;
                 string submitType = value.Type.ToString();
-                TimeCheck query;
+                FormCheck query;
                 try
                 {
-                    query = TimeCheck.Birth(value);
+                    query = FormCheck.Birth(value);
 
                     // Trigger validation using Data Annotations attributes from the HotelsQuery model
                     List<ValidationResult> results = new List<ValidationResult>();
