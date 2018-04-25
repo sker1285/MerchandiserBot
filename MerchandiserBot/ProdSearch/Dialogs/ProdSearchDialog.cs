@@ -24,9 +24,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            ProdSearch_Selc = result.ToString();
+            var message = await result;
+            ProdSearch_Selc = message.Text;
 
-            if (result!=null && (result.ToString().Equals("險種分類") || result.ToString().Equals("關鍵字")))
+            if (message!=null && (message.Text.Equals("險種分類") || message.Text.Equals("關鍵字")))
             {
                 context.Done(context);
             }
