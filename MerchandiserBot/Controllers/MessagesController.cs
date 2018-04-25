@@ -53,7 +53,7 @@ namespace MerchandiserBot
                         {
 
 
-                            var reply = ((Activity)iConversationUpdated).CreateReply($"Welcome to  SKLBot");
+                            var reply = ((Activity)iConversationUpdated).CreateReply($"您好~ 我是小光機器人");
                             connector.Conversations.ReplyToActivity(reply);
 
 

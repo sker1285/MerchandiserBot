@@ -35,7 +35,6 @@ namespace MerchandiserBot.Dialogs
         // HomeDialog
         private async Task SendWelcomeMessageAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            await context.PostAsync("Hi, I'm  Moviebot. Let's get started.");
             option = HomeDialog.getoption();
             if (option.Equals("1")) //忘記密碼
             {
