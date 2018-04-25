@@ -9,8 +9,7 @@ namespace MerchandiserBot
 {
     public class FormCheck
     {
-        [Required]
-        public DateTime? Checkin { get; set; }
+      
         [Required]
         public DateTime? BirthCheck { get; set; }
         [Required]
@@ -21,28 +20,13 @@ namespace MerchandiserBot
 
 
 
-        public static FormCheck Birth(dynamic o)
-        {
-            try
-            {           
-                return new FormCheck
-                {
-                    Checkin = DateTime.Parse(o.Checkin.ToString())
-                };
-            }
-            catch
-            {
-                throw new InvalidCastException("時間格式不對");
-            }
-        }
-
         public static FormCheck GendernBirth(dynamic o)
         {
             try
             {
                 return new FormCheck
                 {
-                    Checkin = o.BirthCheck,
+                    BirthCheck = o.BirthCheck,
                     Gender = o.Gender
                 };
             }
