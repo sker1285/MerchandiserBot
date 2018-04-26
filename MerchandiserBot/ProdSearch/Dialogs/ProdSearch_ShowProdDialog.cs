@@ -15,20 +15,20 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             reply.Attachments = GetProdAttachment();
             await context.PostAsync(reply);
-
-            context.Wait(MessageReceivedAsync);
-        }
-
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            var activity = await result;
-            if (activity!=null)
-            {
-                context.Done(context);
-            }
             context.Done(context);
-            // TODO: Put logic for handling user message here
+            //context.Wait(MessageReceivedAsync);
         }
+
+        //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        //{
+        //    var activity = await result;
+        //    if (activity!=null)
+        //    {
+        //        context.Done(context);
+        //    }
+        //    context.Done(context);
+        //    // TODO: Put logic for handling user message here
+        //}
 
         private static IList<Attachment> GetProdAttachment()
         {

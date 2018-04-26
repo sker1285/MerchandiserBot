@@ -20,7 +20,7 @@ namespace MerchandiserBot.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            var activity = await result as Activity;
+            var activity = await result;
 
             //// calculate something for us to return
             //int length = (activity.Text ?? string.Empty).Length;
@@ -97,9 +97,14 @@ namespace MerchandiserBot.Dialogs
         //顯示產品
         private async Task ProdSearchFormDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), null);
+            context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
         }
 
+        private async Task ProdSearchShowProdDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            //context.Call(new ProdSearch.Dialogs.ProdSearch_FormDialog(), ProdSearchFormDialogResumeAfter);
+            context.Wait(MessageReceivedAsync);
+        }
 
         /************************* PushMsg *************************/
 

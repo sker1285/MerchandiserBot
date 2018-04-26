@@ -18,7 +18,7 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var activity = await result;
-            keyword = result.ToString();
+            keyword = activity.Text;
             if (result!=null)
             {
                 await context.PostAsync($"將進行搜尋{keyword}...");
