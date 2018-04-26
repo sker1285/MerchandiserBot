@@ -26,7 +26,7 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             {
                 context.Done(context);
             }
-
+            context.Done(context);
             // TODO: Put logic for handling user message here
         }
 

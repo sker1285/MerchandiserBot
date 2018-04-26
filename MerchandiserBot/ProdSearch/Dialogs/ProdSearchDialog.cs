@@ -43,8 +43,6 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             }
 
             // TODO: Put logic for handling user message here
-            
-            //context.Wait(MessageReceivedAsync);
         }
 
         private static Attachment GetMenu()
