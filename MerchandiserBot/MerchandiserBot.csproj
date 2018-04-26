@@ -119,6 +119,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\SKL.mdf" />
+    <Content Include="App_Data\SKL_log.ldf">
+      <DependentUpon>SKL.mdf</DependentUpon>
+    </Content>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
