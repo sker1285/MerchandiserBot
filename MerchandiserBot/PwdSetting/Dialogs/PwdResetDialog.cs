@@ -14,51 +14,26 @@ namespace MerchandiserBot.PwdSetting.Dialogs
     [Serializable]
     public class PwdResetDialog : IDialog<IMessageActivity>
     {
+        static string pwd;
+
         public async Task StartAsync(IDialogContext context)
         {
-            var msg = context.MakeMessage();
-            var attachment = GetPwd();
-            msg.Attachments.Add(attachment);
-            await context.PostAsync(msg);
-            context.Wait(this.MessageReceivedAsync);
-        }
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            var message = await result;
-            if (message.Text.Contains("AD密碼"))
+            if (pwd.Equals("AD"))
             {
                 await context.PostAsync("AD密碼已重設，請至信箱收取");
                 await ShowOptionsAsync(context);
                 context.Done(context);
-
             }
-            else if (message.Text.Contains("內網密碼"))
+            else if (pwd.Equals("內網"))
             {
                 await context.PostAsync("內網密碼已重設，請至信箱收取");
                 await ShowOptionsAsync(context);
                 context.Done(context);
             }
-            else
-            {
-                await context.PostAsync("請選擇表單中選項");
-            }
-
-
+            
         }
-
-        private static Attachment GetPwd()
-        {
-            var heroCard = new HeroCard
-            {
-                Title = "請問要重設哪個密碼?",
-                Subtitle = "選擇一個",
-                Buttons = new List<CardAction>() {
-                    new CardAction(ActionTypes.ImBack, "AD密碼", value: "AD密碼"),
-                    new CardAction(ActionTypes.ImBack, "內網密碼", value: "內網密碼")
-                }
-            };
-            return heroCard.ToAttachment();
-        }
+       
+       
 
         private async Task ShowOptionsAsync(IDialogContext context)
         {
@@ -83,7 +58,11 @@ namespace MerchandiserBot.PwdSetting.Dialogs
 
             await context.PostAsync(reply, CancellationToken.None);
 
-            context.Wait(MessageReceivedAsync);
+        }
+
+        public static void setpwd(string n)
+        {
+            pwd = n;
         }
     }
 }

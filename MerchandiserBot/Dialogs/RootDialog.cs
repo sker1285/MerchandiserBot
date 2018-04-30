@@ -10,6 +10,7 @@ namespace MerchandiserBot.Dialogs
     {
         static string option;
         static string prodOption;
+        static string state;
 
         public Task StartAsync(IDialogContext context)
         {
@@ -38,7 +39,7 @@ namespace MerchandiserBot.Dialogs
             option = HomeDialog.getoption();
             if (option.Equals("1")) //忘記密碼
             {
-                context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
+                context.Call(new PwdSetting.Dialogs.ChoicePwdDialog(), ChoicePwdDialogsResumeAfter);
             }
             else if (option.Equals("2")) //商品搜尋
             {
@@ -53,14 +54,50 @@ namespace MerchandiserBot.Dialogs
 
 
         /************************* PwdSetting *************************/
-        // 身分認證
+
+        //選擇須修改密碼類型
+        private async Task ChoicePwdDialogsResumeAfter(IDialogContext context, IAwaitable<string> result)
+        {
+            var msg = await result;
+            if ($"{msg}".Equals("AD"))
+            {
+                PwdSetting.Dialogs.PwdResetDialog.setpwd("AD");
+                context.Call(new PwdSetting.Dialogs.ADPwdDialog(), PwdDialogResumeAfter);
+            }
+            else if ($"{msg}".Equals("內網"))
+            {
+                PwdSetting.Dialogs.PwdResetDialog.setpwd("內網");
+                context.Call(new PwdSetting.Dialogs.InwebPwdDialog(), PwdDialogResumeAfter);
+            }
+            else if ($"{msg}".Equals("Idk"))
+            {
+                PwdSetting.Dialogs.PwdResetDialog.setpwd("AD");
+                context.Call(new PwdSetting.Dialogs.IdkPwdDialog(), PwdDialogResumeAfter);
+            }
+
+        }
+        //AD密碼和內網密碼頁面選擇結束
+        private async Task PwdDialogResumeAfter(IDialogContext context, IAwaitable<object> result)
+        {
+
+            var msg = await result;
+            if ($"{msg}".Equals("goback"))  //如密碼類別選擇錯誤回上一頁
+            {
+                context.Call(new PwdSetting.Dialogs.ChoicePwdDialog(), ChoicePwdDialogsResumeAfter);
+            }
+            else
+            {
+                context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
+            }
+        }
+        // 身分認證結束
         private async Task CertifiedDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             context.Call(new PwdSetting.Dialogs.VerificationDialog(), VerificationDialogResumeAfter);
 
         }
 
-        // 資料驗證
+        // 資料驗證結束
         private async Task VerificationDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             context.Call(new PwdSetting.Dialogs.PwdResetDialog(), PwdResetDialogResumeAfter);

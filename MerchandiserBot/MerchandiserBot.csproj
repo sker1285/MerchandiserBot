@@ -130,21 +130,28 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADPwd.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Dialogs\DbEntity.cs" />
     <Compile Include="Dialogs\HomeDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="FormBirth.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="InwebPwd.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearchDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_CatalogDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_FormDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_KeywordDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_ShowProdDialog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PwdSetting\Dialogs\ADPwdDialog.cs" />
     <Compile Include="PwdSetting\Dialogs\CertifiedDialog.cs" />
+    <Compile Include="PwdSetting\Dialogs\ChoicePwdDialog.cs" />
+    <Compile Include="PwdSetting\Dialogs\IdkPwdDialog.cs" />
+    <Compile Include="PwdSetting\Dialogs\InwebPwdDialog.cs" />
     <Compile Include="PwdSetting\Dialogs\PwdResetDialog.cs" />
     <Compile Include="PwdSetting\Dialogs\VerificationDialog.cs" />
     <Compile Include="FormCheck.cs" />
