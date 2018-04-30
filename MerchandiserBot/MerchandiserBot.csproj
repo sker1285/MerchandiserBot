@@ -141,6 +141,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="InwebPwd.cs" />
+    <Compile Include="LuisIntent.cs" />
+    <Compile Include="Models\LUIS.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearchDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_CatalogDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_FormDialog.cs" />
