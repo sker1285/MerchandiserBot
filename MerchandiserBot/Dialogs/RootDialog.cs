@@ -15,7 +15,7 @@ namespace MerchandiserBot.Dialogs
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
-
+            
             return Task.CompletedTask;
         }
 
@@ -116,7 +116,7 @@ namespace MerchandiserBot.Dialogs
             prodOption = ProdSearch.Dialogs.ProdSearchDialog.GetProdSearchSelc();
             if (prodOption.Equals("險種分類"))
             {
-                context.Call(new ProdSearch.Dialogs.ProdSearch_CatalogDialog(), PS_CataKeyDialogResumeAfter);
+                context.Call(new ProdSearch.Dialogs.ProdSearch_CatalogDialog(), ProdSearchFormDialogResumeAfter);
             }
             else if (prodOption.Equals("關鍵字"))
             {

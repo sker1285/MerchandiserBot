@@ -21,8 +21,17 @@ namespace MerchandiserBot.ProdSearch.Dialogs
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
+            var message = await result;
             if (result!=null)
             {
+                if (message.Text.Equals("意外險"))
+                {
+                    ProdSearch_KeywordDialog.setKeyword("意外");
+                }
+                else if (message.Text.Equals("壽險"))
+                {
+                    ProdSearch_KeywordDialog.setKeyword("壽險");
+                }
                 context.Done(context);
             }
             else

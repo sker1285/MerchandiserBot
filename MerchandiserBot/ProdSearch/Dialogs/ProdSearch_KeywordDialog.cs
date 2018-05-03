@@ -25,10 +25,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var activity = await result;
-            keyword = activity.Text;
+            //keyword = activity.Text;
             if (result!=null)
             {
-                await context.PostAsync($"將進行搜尋{keyword}...");
+                //await context.PostAsync($"將進行搜尋{keyword}...");
                 context.Done(context);
 
             }
@@ -44,6 +44,15 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         {
             return keywordCheck;
         }
-       
+
+        public static void setKeyword(string kw)
+        {
+            keyword = kw;
+        }
+
+        public static string getKeyword()
+        {
+            return keyword;
+        }
     }
 }

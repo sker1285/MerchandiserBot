@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
@@ -9,8 +10,11 @@ namespace MerchandiserBot.ProdSearch.Dialogs
     [Serializable]
     public class ProdSearch_ShowProdDialog : IDialog<IMessageActivity>
     {
+        static string keyword;
         public async Task StartAsync(IDialogContext context)
         {
+            keyword = ProdSearch_KeywordDialog.getKeyword();
+
             var reply = context.MakeMessage();
             reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             reply.Attachments = GetProdAttachment();
@@ -32,29 +36,30 @@ namespace MerchandiserBot.ProdSearch.Dialogs
 
         private static IList<Attachment> GetProdAttachment()
         {
-            return new List<Attachment>()
+            var result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword));
+            List<Attachment> list = new List<Attachment>();
+            foreach (var item in result)
             {
-                GetProduct(
-                    "活力平安傷害保險",
-                    "活力系列專區",
-                    new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
-                    new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/")),
-                GetProduct(
-                    "活力平安傷害保險",
-                    "活力系列專區",
-                    new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
-                    new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/")),
-                GetProduct(
-                    "活力平安傷害保險",
-                    "活力系列專區",
-                    new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
-                    new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/")),
-                GetProduct(
-                    "活力平安傷害保險",
-                    "活力系列專區",
-                    new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
-                    new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/")),
-            };
+                list.Add(
+                    GetProduct(item.Name.ToString(), item.Cata.ToString()+"  "+item.PublishDate.ToString(), new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
+                    );
+            }
+            
+            return list;
+            //return new List<Attachment>()
+            //{
+                
+            //    GetProduct(
+            //        "活力平安傷害保險",
+            //        "活力系列專區",
+            //        new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
+            //        new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/")),
+            //    GetProduct(
+            //        "活力平安傷害保險",
+            //        "活力系列專區",
+            //        new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
+            //        new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/"))
+            //};
         }
 
         private static Attachment GetProduct(string title, string subtitle, CardImage cardImage, CardAction cardAction)

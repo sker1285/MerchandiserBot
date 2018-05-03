@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net;
@@ -6,8 +7,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using MerchandiserBot.Dialogs;
+using MerchandiserBot.Models;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Models;
 using Newtonsoft.Json;
 
 namespace MerchandiserBot
@@ -15,7 +19,7 @@ namespace MerchandiserBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-         
+        static public List<Product> ltProd = GetJson.GetProdList(@"C:\Users\er1307\source\repos\MerchandiserBot\MerchandiserBot\App_Data\product.json");
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
@@ -38,14 +42,90 @@ namespace MerchandiserBot
                     Stream dataStream = hwresponse.GetResponseStream();
                     StreamReader reader = new StreamReader(dataStream);
                     string json = reader.ReadToEnd();
-                    Models.LUIS objLUISRes = JsonConvert.DeserializeObject<Models.LUIS>(json);
+                    LUIS objLUISRes = JsonConvert.DeserializeObject<LUIS>(json);
 
                     string strReply = "無法識別的內容";
 
                     if (objLUISRes.intents.Count > 0)
                     {
                         string strIntent = objLUISRes.intents[0].intent;
-                        strReply = LuisIntent.intent(strIntent);
+                        if (strIntent.Equals("搜尋壽險"))
+                        {
+                            strReply = "將進行搜尋壽險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("壽險");
+                        }
+                        else if (strIntent.Equals("搜尋投資型保險"))
+                        {
+                            strReply = "將進行搜尋投資型保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("投資");
+                        }
+                        else if (strIntent.Equals("搜尋年金保險"))
+                        {
+                            strReply = "將進行搜尋年金保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("年金");
+                        }
+                        else if (strIntent.Equals("搜尋小額終老保險"))
+                        {
+                            strReply = "將進行搜尋小額終老保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("小額終老");
+                        }
+                        else if (strIntent.Equals("搜尋實物給付型保險"))
+                        {
+                            strReply = "將進行搜尋實物給付型保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("實物給付");
+                        }
+                        else if (strIntent.Equals("搜尋長照"))
+                        {
+                            strReply = "將進行搜尋長照...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("長照專區");
+                        }
+                        else if (strIntent.Equals("搜尋大男子保險"))
+                        {
+                            strReply = "將進行搜尋大男子保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("大男子保險");
+                        }
+                        else if (strIntent.Equals("搜尋生死合險"))
+                        {
+                            strReply = "將進行搜尋生死合險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("生死合險");
+                        }
+                        else if (strIntent.Equals("搜尋HER大女子保險"))
+                        {
+                            strReply = "將進行搜尋HER大女子保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("HER大女子保險");
+                        }
+                        else if (strIntent.Equals("搜尋OIU保險"))
+                        {
+                            strReply = "將進行搜尋OIU保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("OIU專區");
+                        }
+                        else if (strIntent.Equals("搜尋利變壽"))
+                        {
+                            strReply = "將進行搜尋利變壽...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("利變壽");
+                        }
+                        else if (strIntent.Equals("搜尋展新人生保險"))
+                        {
+                            strReply = "將進行搜尋展新人生保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("展新人生");
+                        }
+                        else if (strIntent.Equals("搜尋意外傷害險"))
+                        {
+                            strReply = "將進行搜尋意外傷害險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("意外傷害");
+                        }
+                        else if (strIntent.Equals("搜尋活力系列保險"))
+                        {
+                            strReply = "將進行搜尋活力系列保險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("活力系列");
+                        }
+                        else if (strIntent.Equals("搜尋醫療險"))
+                        {
+                            strReply = "將進行搜尋醫療險...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("醫療");
+                        }
+
+                        //strReply = LuisIntent.intent(strIntent);
                     }
 
                     Activity reply = activity.CreateReply(strReply);
