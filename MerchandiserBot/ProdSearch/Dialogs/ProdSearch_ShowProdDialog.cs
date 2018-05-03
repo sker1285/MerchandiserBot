@@ -20,19 +20,7 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             reply.Attachments = GetProdAttachment();
             await context.PostAsync(reply);
             context.Done(context);
-            //context.Wait(MessageReceivedAsync);
         }
-
-        //private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        //{
-        //    var activity = await result;
-        //    if (activity!=null)
-        //    {
-        //        context.Done(context);
-        //    }
-        //    context.Done(context);
-        //    // TODO: Put logic for handling user message here
-        //}
 
         private static IList<Attachment> GetProdAttachment()
         {
@@ -41,25 +29,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             foreach (var item in result)
             {
                 list.Add(
-                    GetProduct(item.Name.ToString(), item.Cata.ToString()+"  "+item.PublishDate.ToString(), new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
+                    GetProduct(item.Name.ToString(), item.Cata.ToString()+"  "+item.PublishDate.ToString(), new CardImage(url: "https://sklbot.blob.core.windows.net/merchandiserbot/A01.PNG"), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
                     );
             }
-            
             return list;
-            //return new List<Attachment>()
-            //{
-                
-            //    GetProduct(
-            //        "活力平安傷害保險",
-            //        "活力系列專區",
-            //        new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
-            //        new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/")),
-            //    GetProduct(
-            //        "活力平安傷害保險",
-            //        "活力系列專區",
-            //        new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
-            //        new CardAction(ActionTypes.OpenUrl, "查看更多", value: "https://www.google.com.tw/"))
-            //};
         }
 
         private static Attachment GetProduct(string title, string subtitle, CardImage cardImage, CardAction cardAction)
