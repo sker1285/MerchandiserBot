@@ -1,8 +1,10 @@
 ﻿using AdaptiveCards;
+using MerchandiserBot.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,14 +20,18 @@ namespace MerchandiserBot.PwdSetting.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
+            DateTime localDate = DateTime.Now;
+            string now = localDate.ToString("yyyy/MM/dd HH:mm:ss");
             if (pwd.Equals("AD"))
-            {
+            {               
+                DataTable dt = new DbEntity().PwdRecord(PwdSetting.Dialogs.CertifiedDialog.getId(),now,"ADPwd");
                 await context.PostAsync("AD密碼已重設，請至信箱收取");
                 await ShowOptionsAsync(context);
                 context.Done(context);
             }
             else if (pwd.Equals("內網"))
             {
+                DataTable dt = new DbEntity().PwdRecord(PwdSetting.Dialogs.CertifiedDialog.getId(), now, "InwebPwd");
                 await context.PostAsync("內網密碼已重設，請至信箱收取");
                 await ShowOptionsAsync(context);
                 context.Done(context);

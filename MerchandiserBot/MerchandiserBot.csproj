@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="InwebPwd.cs" />
     <Compile Include="LuisIntent.cs" />
+    <Compile Include="Merchandiser.cs" />
     <Compile Include="Models\LUIS.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearchDialog.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="ProdSearch\Dialogs\ProdSearch_KeywordDialog.cs" />
     <Compile Include="ProdSearch\Dialogs\ProdSearch_ShowProdDialog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PwdRecord.cs" />
     <Compile Include="PwdSetting\Dialogs\ADPwdDialog.cs" />
     <Compile Include="PwdSetting\Dialogs\CertifiedDialog.cs" />
     <Compile Include="PwdSetting\Dialogs\ChoicePwdDialog.cs" />
