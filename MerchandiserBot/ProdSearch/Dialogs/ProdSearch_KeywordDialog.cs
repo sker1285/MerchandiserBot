@@ -14,6 +14,7 @@ namespace MerchandiserBot.ProdSearch.Dialogs
     public class ProdSearch_KeywordDialog : IDialog<IMessageActivity>
     {
         static Boolean keywordCheck = false;
+        static Boolean LuisKWCheck = true;
         static string keyword;
         public async Task StartAsync(IDialogContext context)
         {
@@ -43,6 +44,21 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         public static Boolean getcheck()
         {
             return keywordCheck;
+        }
+
+        public static void setLuisKWCheck_false()
+        {
+            LuisKWCheck = false;
+        }
+
+        public static void setLuisKWCheck_true()
+        {
+            LuisKWCheck = true;
+        }
+
+        public static Boolean getLuisKWCheck()
+        {
+            return LuisKWCheck;
         }
 
         public static void setKeyword(string kw)

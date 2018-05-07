@@ -45,6 +45,7 @@ namespace MerchandiserBot
                     LUIS objLUISRes = JsonConvert.DeserializeObject<LUIS>(json);
 
                     string strReply = "無法識別的內容";
+                    ProdSearch.Dialogs.ProdSearch_KeywordDialog.setLuisKWCheck_true();
 
                     if (objLUISRes.intents.Count > 0)
                     {
@@ -123,6 +124,11 @@ namespace MerchandiserBot
                         {
                             strReply = "將進行搜尋醫療險...";
                             ProdSearch.Dialogs.ProdSearch_KeywordDialog.setKeyword("醫療");
+                        }
+                        else
+                        {
+                            strReply = "無法識別的內容，請重新輸入...";
+                            ProdSearch.Dialogs.ProdSearch_KeywordDialog.setLuisKWCheck_false();
                         }
 
                         //strReply = LuisIntent.intent(strIntent);
