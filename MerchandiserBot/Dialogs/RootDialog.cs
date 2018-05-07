@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -11,6 +12,7 @@ namespace MerchandiserBot.Dialogs
         static string option;
         static string prodOption;
         static string state;
+
         static Boolean Back2home = true;
         static Boolean Open2home = false;
 
