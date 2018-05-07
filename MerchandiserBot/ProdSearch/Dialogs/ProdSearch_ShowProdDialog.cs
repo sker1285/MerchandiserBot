@@ -68,8 +68,9 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         //檢查是否有此筆商品
         private static Boolean Checkdata()
         {
+            var ss = ProdSearch_KeywordDialog.getnonLuisKeyword();
             var result = MessagesController.ltProd.FindAll(x => x.Name.Contains(ProdSearch_KeywordDialog.getnonLuisKeyword()));
-            if (result == null)
+            if (result.Count.Equals(0))
             {
                 return false;
             }

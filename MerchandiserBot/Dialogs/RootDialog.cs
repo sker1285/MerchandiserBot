@@ -9,6 +9,14 @@ namespace MerchandiserBot.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        /// <summary>
+        /// {option}: 使用者在主選單　選擇的項目
+        /// {prodOption}: 使用者在商品搜尋選單　選擇的項目
+        /// {state}: 
+        /// {error}: 
+        /// {Back2home}: 是否要回首頁選單
+        /// {Open2home}: 是否要執行　回首頁Luis判斷
+        /// </summary>
         static string option;
         static string prodOption;
         static string state;
