@@ -13,6 +13,8 @@ namespace MerchandiserBot.Models
 
         public string DMURL { get; set; }
 
+        public string ImgURL { get; set; }
+
         public string PublishDate { get; set; }
     }
 }

@@ -13,9 +13,16 @@ namespace MerchandiserBot.ProdSearch.Dialogs
     [Serializable]
     public class ProdSearch_KeywordDialog : IDialog<IMessageActivity>
     {
+        /// <summary>
+        /// {keywordCheck}: 給　Messagecontroller是否需要進行 Luis 的判斷
+        /// {LuisKWChwck} : 判斷 Luis是否有判斷正確
+        /// {keyword}: 會被 Luis Intent 改變的　關鍵字
+        /// {nonLuisKeyword}: 使用者輸入的原生關鍵字
+        /// </summary>
         static Boolean keywordCheck = false;
         static Boolean LuisKWCheck = true;
         static string keyword;
+        static string nonLuisKeyword;
         public async Task StartAsync(IDialogContext context)
         {
             keywordCheck = true;
@@ -26,14 +33,12 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var activity = await result;
-            //keyword = activity.Text;
             if (result!=null)
             {
-                //await context.PostAsync($"將進行搜尋{keyword}...");
+                setnonLuisKeyword(activity.Text);
                 context.Done(context);
-
             }
-            // TODO: Put logic for handling user message here
+
         }
 
         public static void setcheck()
@@ -69,6 +74,16 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         public static string getKeyword()
         {
             return keyword;
+        }
+
+        public static void setnonLuisKeyword(string kw)
+        {
+            nonLuisKeyword = kw;
+        }
+
+        public static string getnonLuisKeyword()
+        {
+            return nonLuisKeyword;
         }
     }
 }

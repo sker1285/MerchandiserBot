@@ -22,16 +22,8 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            if (result!=null)
+            if (result!=null && TextCheck(message.Text))
             {
-                //if (message.Text.Equals("意外險"))
-                //{
-                //    ProdSearch_KeywordDialog.setKeyword("意外");
-                //}
-                //else if (message.Text.Equals("壽險"))
-                //{
-                //    ProdSearch_KeywordDialog.setKeyword("壽險");
-                //}
                 ProdSearch_KeywordDialog.setKeyword(message.Text);
                 context.Done(context);
             }
@@ -65,6 +57,18 @@ namespace MerchandiserBot.ProdSearch.Dialogs
 
             return heroCard.ToAttachment();
 
+        }
+
+        private Boolean TextCheck(string message)
+        {
+            if (message.Equals("意外傷害") || message.Equals("年金型") || message.Equals("利變壽") || message.Equals("醫療型") || message.Equals("壽險"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

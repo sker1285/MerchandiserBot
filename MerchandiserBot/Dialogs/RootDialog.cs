@@ -11,6 +11,8 @@ namespace MerchandiserBot.Dialogs
         static string option;
         static string prodOption;
         static string state;
+        static Boolean Back2home = true;
+        static Boolean Open2home = false;
 
         public Task StartAsync(IDialogContext context)
         {
@@ -22,8 +24,18 @@ namespace MerchandiserBot.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var activity = await result;
-
-            context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+            if (Back2home)
+            {
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+                SetOpen2home(false);
+            }
+            else
+            {
+                await context.PostAsync("顯示選單請下指令～（例如：\"首頁\"、\"表單\"、\"累了\"...等）");
+                context.Wait(MessageReceivedAsync);
+            }
+            
 
 
         }
@@ -142,11 +154,36 @@ namespace MerchandiserBot.Dialogs
 
         private async Task ProdSearchShowProdDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
+            SetOpen2home(true);
             context.Wait(MessageReceivedAsync);
         }
 
         /************************* PushMsg *************************/
 
 
+
+
+        /************************** GetSet *************************/
+        public static void SetBack2home(Boolean check)
+        {
+            Back2home = check;
+        }
+
+        public static Boolean GetBack2home()
+        {
+            return Back2home;
+        }
+
+        public static void SetOpen2home(Boolean check)
+        {
+            Open2home = check;
+        }
+
+        public static Boolean GetOpen2home()
+        {
+            return Open2home;
+        }
+
     }
+
 }

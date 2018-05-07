@@ -25,10 +25,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            ProdSearch_Selc = message.Text;
 
             if (message!=null && (message.Text.Equals("險種分類") || message.Text.Equals("關鍵字")))
             {
+                ProdSearch_Selc = message.Text;
                 context.Done(context);
             }
             else

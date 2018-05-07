@@ -22,17 +22,61 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             context.Done(context);
         }
 
+        /// <summary>
+        /// 搜尋商品
+        /// 1.判斷是以 "關鍵字" 或是 "險種" 進行搜尋
+        /// 2.1 關鍵字--> 檢查是否有與關鍵字符合的 "商品名稱"
+        ///     否-->　搜尋 LUIS 判斷出來的商品 "類別"
+        ///     是-->　搜尋商品符合 "關鍵字" 且與LUIS判別結果相同的 "類別"
+        /// 2.2 類別--> 搜尋 LUIS 判別出來的商品類別
+        /// </summary>
+        /// <returns></returns>
         private static IList<Attachment> GetProdAttachment()
         {
-            var result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword));
-            List<Attachment> list = new List<Attachment>();
-            foreach (var item in result)
+            if (ProdSearchDialog.GetProdSearchSelc().Equals("關鍵字"))
             {
-                list.Add(
-                    GetProduct(item.Name.ToString(), item.Cata.ToString()+"  "+item.PublishDate.ToString(), new CardImage(url: "https://sklbot.blob.core.windows.net/merchandiserbot/A01.PNG"), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
-                    );
+                var result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword));
+                if (Checkdata())
+                {
+                    result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword) && x.Name.Contains(ProdSearch_KeywordDialog.getnonLuisKeyword()));
+                }
+                //var result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword) && x.Name.Contains(keyword));
+                List<Attachment> list = new List<Attachment>();
+                foreach (var item in result)
+                {
+                    list.Add(
+                        GetProduct(item.Name.ToString(), item.Cata.ToString() + "  " + item.PublishDate.ToString(), new CardImage(url: item.ImgURL.ToString()), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
+                        );
+                }
+                return list;
             }
-            return list;
+            else
+            {
+                var result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword));
+                List<Attachment> list = new List<Attachment>();
+                foreach (var item in result)
+                {
+                    list.Add(
+                        GetProduct(item.Name.ToString(), item.Cata.ToString() + "  " + item.PublishDate.ToString(), new CardImage(url: item.ImgURL.ToString()), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
+                        );
+                }
+                return list;
+            }
+
+        }
+
+        //檢查是否有此筆商品
+        private static Boolean Checkdata()
+        {
+            var result = MessagesController.ltProd.FindAll(x => x.Name.Contains(ProdSearch_KeywordDialog.getnonLuisKeyword()));
+            if (result == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private static Attachment GetProduct(string title, string subtitle, CardImage cardImage, CardAction cardAction)
