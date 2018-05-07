@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -11,6 +12,7 @@ namespace MerchandiserBot.Dialogs
         static string option;
         static string prodOption;
         static string state;
+        static int error;
 
         public Task StartAsync(IDialogContext context)
         {
@@ -92,15 +94,45 @@ namespace MerchandiserBot.Dialogs
         }
         // 身分認證結束
         private async Task CertifiedDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            context.Call(new PwdSetting.Dialogs.VerificationDialog(), VerificationDialogResumeAfter);
-
+        {          
+            DataTable dt = new DbEntity().MerchandiserData(PwdSetting.Dialogs.CertifiedDialog.getId());
+            if (dt.Rows.Count!=0)
+            {
+                error = int.Parse(dt.Rows[0]["errortimes"].ToString());
+                if (error > 3)
+                {
+                    await context.PostAsync("您已輸入超過3次錯誤,請致電21080進行修改");
+                    context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                }
+                else
+                {
+                    context.Call(new PwdSetting.Dialogs.VerificationDialog(), VerificationDialogResumeAfter);
+                }
+            } 
+            else
+            {
+                await context.PostAsync("查無此人");
+                context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
+            }
         }
 
         // 資料驗證結束
         private async Task VerificationDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            context.Call(new PwdSetting.Dialogs.PwdResetDialog(), PwdResetDialogResumeAfter);
+
+            bool Mcheck = PwdSetting.Dialogs.VerificationDialog.CheckMerchandiser();
+            if (Mcheck)
+            {
+                await context.PostAsync("驗證成功!");
+                context.Call(new PwdSetting.Dialogs.PwdResetDialog(), PwdResetDialogResumeAfter);
+            }
+            else
+            {
+                await context.PostAsync("身分驗證失敗!");
+                DataTable dt = new DbEntity().errortimes(error+1);
+                context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
+            }
+
 
         }
         private async Task PwdResetDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
