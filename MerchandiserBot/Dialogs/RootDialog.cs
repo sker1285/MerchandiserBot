@@ -137,14 +137,18 @@ namespace MerchandiserBot.Dialogs
         {
 
             bool Mcheck = PwdSetting.Dialogs.VerificationDialog.CheckMerchandiser();
+            
             if (Mcheck)
             {
-                await context.PostAsync("驗證成功!");
+                string Id = PwdSetting.Dialogs.CertifiedDialog.getId();
+                DataTable dt = new DbEntity().MerchandiserData(Id);
+                string name = dt.Rows[0]["Name"].ToString();
+                await context.PostAsync($"{name}你好，身份已驗證成功!");
                 context.Call(new PwdSetting.Dialogs.PwdResetDialog(), PwdResetDialogResumeAfter);
             }
             else
             {
-                await context.PostAsync("身分驗證失敗!");
+                await context.PostAsync("身份驗證失敗!");
                 DataTable dt = new DbEntity().errortimes(error+1);
                 context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
             }
