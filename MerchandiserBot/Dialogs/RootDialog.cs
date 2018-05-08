@@ -157,7 +157,8 @@ namespace MerchandiserBot.Dialogs
         }
         private async Task PwdResetDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-
+            SetOpen2home(true);
+            context.Wait(MessageReceivedAsync);
         }
 
 

@@ -19,11 +19,12 @@ namespace MerchandiserBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        static public List<Product> ltProd = GetJson.GetProdList(@"C:\Users\er1307\source\repos\MerchandiserBot\MerchandiserBot\App_Data\product.json");
+        static public List<Product> ltProd = GetJson.GetProdList(@"MerchandiserBot\App_Data\product.json");
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
+        
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)
@@ -203,7 +204,7 @@ namespace MerchandiserBot
                         if (member.Id == iConversationUpdated.Recipient.Id)
                         {
 
-
+                            RootDialog.SetBack2home(true);
                             var reply = ((Activity)iConversationUpdated).CreateReply($"您好~ 我是小光機器人");
                             connector.Conversations.ReplyToActivity(reply);
 
