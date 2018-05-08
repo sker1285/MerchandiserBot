@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -23,9 +24,14 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             DateTime localDate = DateTime.Now;
             string now = localDate.ToString("yyyy/MM/dd HH:mm:ss");
             if (pwd.Equals("AD"))
-            {               
+            {
                 DataTable dt = new DbEntity().PwdRecord(PwdSetting.Dialogs.CertifiedDialog.getId(),now,"ADPwd");
                 await context.PostAsync("AD密碼已重設，請至信箱收取");
+                DataTable Mdt = new DbEntity().MerchandiserData(PwdSetting.Dialogs.CertifiedDialog.getId());
+                string birth = Convert.ToDateTime(Mdt.Rows[0]["Birth"]).ToString("yyyyMMdd");                             
+                Mail.otp = birth;
+                Mail.SendMail();
+
                 await ShowOptionsAsync(context);
                 context.Done(context);
             }

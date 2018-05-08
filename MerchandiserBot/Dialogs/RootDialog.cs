@@ -24,7 +24,6 @@ namespace MerchandiserBot.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var activity = await result;
-
             context.Call(new HomeDialog(), SendWelcomeMessageAsync);
 
 

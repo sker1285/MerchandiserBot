@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="userPwdChange">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Emp_NO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="OldPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="APFrom" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="userPwdChangeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userPwdChangeResult" type="tns:ChangeResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ChangeResult">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="ResultCode" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="ResultMessage" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="userPwdChangeFO">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Emp_NO" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="NewPwd" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="APFrom" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="userPwdChangeFOResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userPwdChangeFOResult" type="tns:ChangeResult" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="userPwdChangeSoapIn">
+    <wsdl:part name="parameters" element="tns:userPwdChange" />
+  </wsdl:message>
+  <wsdl:message name="userPwdChangeSoapOut">
+    <wsdl:part name="parameters" element="tns:userPwdChangeResponse" />
+  </wsdl:message>
+  <wsdl:message name="userPwdChangeFOSoapIn">
+    <wsdl:part name="parameters" element="tns:userPwdChangeFO" />
+  </wsdl:message>
+  <wsdl:message name="userPwdChangeFOSoapOut">
+    <wsdl:part name="parameters" element="tns:userPwdChangeFOResponse" />
+  </wsdl:message>
+  <wsdl:portType name="wsPwdChangeSoap">
+    <wsdl:operation name="userPwdChange">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新員工內網密碼</wsdl:documentation>
+      <wsdl:input message="tns:userPwdChangeSoapIn" />
+      <wsdl:output message="tns:userPwdChangeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="userPwdChangeFO">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">更新員工內網密碼(忘記舊密碼)</wsdl:documentation>
+      <wsdl:input message="tns:userPwdChangeFOSoapIn" />
+      <wsdl:output message="tns:userPwdChangeFOSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="wsPwdChangeSoap" type="tns:wsPwdChangeSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="userPwdChange">
+      <soap:operation soapAction="http://tempuri.org/userPwdChange" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="userPwdChangeFO">
+      <soap:operation soapAction="http://tempuri.org/userPwdChangeFO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="wsPwdChangeSoap12" type="tns:wsPwdChangeSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="userPwdChange">
+      <soap12:operation soapAction="http://tempuri.org/userPwdChange" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="userPwdChangeFO">
+      <soap12:operation soapAction="http://tempuri.org/userPwdChangeFO" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="wsPwdChange">
+    <wsdl:port name="wsPwdChangeSoap" binding="tns:wsPwdChangeSoap">
+      <soap:address location="http://test-sklweb.skl.com.tw/requirementwebservice/wsPwdChange.asmx" />
+    </wsdl:port>
+    <wsdl:port name="wsPwdChangeSoap12" binding="tns:wsPwdChangeSoap12">
+      <soap12:address location="http://test-sklweb.skl.com.tw/requirementwebservice/wsPwdChange.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
