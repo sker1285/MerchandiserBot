@@ -12,7 +12,7 @@ namespace MerchandiserBot.PwdSetting.Dialogs
 {
     [Serializable]
     public class CertifiedDialog : IDialog<IMessageActivity>
-    {
+    { 
         static string Id;
         public async Task StartAsync(IDialogContext context)
         {
