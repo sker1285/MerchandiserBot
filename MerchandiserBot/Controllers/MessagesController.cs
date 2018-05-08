@@ -131,12 +131,41 @@ namespace MerchandiserBot
                             ProdSearch.Dialogs.ProdSearch_KeywordDialog.setLuisKWCheck_false();
                         }
 
-                        //strReply = LuisIntent.intent(strIntent);
                     }
 
                     Activity reply = activity.CreateReply(strReply);
                     await connector.Conversations.ReplyToActivityAsync(reply);
                     ProdSearch.Dialogs.ProdSearch_KeywordDialog.setcheck();
+                }
+                else if (RootDialog.GetOpen2home())
+                {
+                    ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
+                    string strLuisKey = ConfigurationManager.AppSettings["LUISAPIKey"].ToString();
+                    string strLuisAppId = ConfigurationManager.AppSettings["LUISAppId"].ToString();
+                    string strMessage = HttpUtility.UrlEncode(activity.Text);
+                    string strLuisUrl = $"https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/{strLuisAppId}?subscription-key={strLuisKey}&verbose=true&timezoneOffset=0&q={strMessage}";
+
+                    // 收到文字訊息後，往LUIS送
+                    WebRequest request = WebRequest.Create(strLuisUrl);
+                    HttpWebResponse hwresponse = (HttpWebResponse)request.GetResponse();
+                    Stream dataStream = hwresponse.GetResponseStream();
+                    StreamReader reader = new StreamReader(dataStream);
+                    string json = reader.ReadToEnd();
+                    LUIS objLUISRes = JsonConvert.DeserializeObject<LUIS>(json);
+
+                    //string strReply = "無法識別的內容";
+
+                    if (objLUISRes.intents.Count > 0)
+                    {
+                        string strIntent = objLUISRes.intents[0].intent;
+                        if (strIntent.Equals("回首頁選單"))
+                        {
+                            RootDialog.SetBack2home(true);
+                        }
+                    }
+
+                    //Activity reply = activity.CreateReply(strReply);
+                    //await connector.Conversations.ReplyToActivityAsync(reply);
                 }
 
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
