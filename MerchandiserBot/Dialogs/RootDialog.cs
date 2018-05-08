@@ -172,29 +172,46 @@ namespace MerchandiserBot.Dialogs
             }
             else if (prodOption.Equals("關鍵字"))
             {
-                context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), PS_KeywordDialogResumeAfter);
+                context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), ProdSearchFormDialogResumeAfter);
+                //context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), PS_KeywordDialogResumeAfter);
             }
             
         }
 
         //結束以 關鍵字 或 險種分類 後要填寫的表格
-        private async Task PS_KeywordDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        //private async Task PS_KeywordDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
+        //{
+        //    if (ProdSearch.Dialogs.ProdSearch_KeywordDialog.getLuisKWCheck())
+        //    {
+        //        context.Call(new ProdSearch.Dialogs.ProdSearch_FormDialog(), ProdSearchFormDialogResumeAfter);
+        //    }
+        //    else
+        //    {
+        //        context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), PS_KeywordDialogResumeAfter);
+        //    }
+            
+        //}
+
+        //顯示產品
+
+        private async Task ProdSearchFormDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            if (ProdSearch.Dialogs.ProdSearch_KeywordDialog.getLuisKWCheck())
+            if (ProdSearch.Dialogs.ProdSearchDialog.GetProdSearchSelc().Equals("關鍵字"))
             {
-                context.Call(new ProdSearch.Dialogs.ProdSearch_FormDialog(), ProdSearchFormDialogResumeAfter);
+                if (ProdSearch.Dialogs.ProdSearch_KeywordDialog.getLuisKWCheck())
+                {
+                    context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
+                }
+                else
+                {
+                    context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), ProdSearchFormDialogResumeAfter);
+                }
             }
             else
             {
-                context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), PS_KeywordDialogResumeAfter);
+                context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
             }
-            
-        }
-
-        //顯示產品
-        private async Task ProdSearchFormDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
+            //context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
         }
 
         private async Task ProdSearchShowProdDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
