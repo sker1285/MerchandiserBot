@@ -19,7 +19,7 @@ namespace MerchandiserBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        static public List<Product> ltProd = GetJson.GetProdList(@"MerchandiserBot\App_Data\product.json");
+        static public List<Product> ltProd = GetJson.GetProdList("C:/Users/ER1285/source/repos/MerchandiserBot/MerchandiserBot/App_Data/product.json");
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it

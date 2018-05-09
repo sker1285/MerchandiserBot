@@ -18,9 +18,9 @@ namespace MerchandiserBot.Dialogs
             using (var dbConn = new SqlConnection(conn))
             {
                 dbConn.Open();
-                using (var cmd = dbConn.CreateCommand())
+                try {   using (var cmd = dbConn.CreateCommand())
                 {
-                    cmd.CommandText = "select * from ADPwd";
+                    cmd.CommandText = "select * from ADPwd where Id =100";
                     var dt = new DataTable();
                     var adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(dt);
@@ -34,8 +34,15 @@ namespace MerchandiserBot.Dialogs
                             img = dt.Rows[i]["img"].ToString(),
                         });
                     }
-                    return dt;
+                        Console.WriteLine("Hello World!");
+                        return dt;
+                } }
+                catch (Exception e)
+                {
+                    Console.WriteLine("資料庫問題"+e);
+                    return null;
                 }
+             
             }
         }
 

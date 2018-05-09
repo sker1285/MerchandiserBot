@@ -199,6 +199,9 @@
     <Content Include="App_Data\product.json" />
     <None Include="Connected Services\PwdChange\wsPwdChange.wsdl" />
     <None Include="Properties\PublishProfiles\MerchandiserBot - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\merchandiserskl - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\mskl - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\msklWeb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\sklwab - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
