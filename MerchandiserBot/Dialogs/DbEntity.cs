@@ -20,7 +20,7 @@ namespace MerchandiserBot.Dialogs
                 dbConn.Open();
                 try {   using (var cmd = dbConn.CreateCommand())
                 {
-                    cmd.CommandText = "select * from ADPwd where Id =100";
+                    cmd.CommandText = "select * from ADPwd ";
                     var dt = new DataTable();
                     var adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(dt);
@@ -34,13 +34,12 @@ namespace MerchandiserBot.Dialogs
                             img = dt.Rows[i]["img"].ToString(),
                         });
                     }
-                        Console.WriteLine("Hello World!");
                         return dt;
                 } }
                 catch (Exception e)
                 {
-                    Console.WriteLine("資料庫問題"+e);
-                    return null;
+                    throw e;
+                    
                 }
              
             }

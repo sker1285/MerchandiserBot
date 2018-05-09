@@ -18,10 +18,13 @@ namespace MerchandiserBot.PwdSetting.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
         {
-            var reply = context.MakeMessage();
-            reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-            reply.Attachments = GetCardsAttachments();
-            await context.PostAsync(reply);
+            try { var reply = context.MakeMessage();
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                reply.Attachments = GetCardsAttachments();
+                await context.PostAsync(reply); }
+            catch (Exception e)
+            { await context.PostAsync("請填寫完整\n" + e); }
+           
 
             var msg = context.MakeMessage();
             var attachment = Getback();
