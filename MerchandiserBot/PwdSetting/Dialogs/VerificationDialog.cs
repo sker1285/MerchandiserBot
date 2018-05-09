@@ -41,49 +41,51 @@ namespace MerchandiserBot.PwdSetting.Dialogs
                 {
                     //await context.PostAsync("請輸入您的[生日]" +
                     //                   "\n\r" + " OOO年OO月OO日(ex.070/01月01日)");
-                    await ShowOptionsAsync(context);
+                    //await ShowOptionsAsync(context);
+                    await context.PostAsync("身分驗證中...");
+                    context.Done(context);
                 }
                 else {
                     await context.PostAsync("輸入格式不符，請重新輸入[身分證字號]");
                     state--;
                 }              
             }
-            if (state == 2 )
-            {
-                dynamic value = message.Value;
-                string submitType = value.Type.ToString();
-                FormBirth query;
-                try
-                {
-                    query = FormBirth.Birth(value);
+            //if (state == 2 )
+            //{
+            //    dynamic value = message.Value;
+            //    string submitType = value.Type.ToString();
+            //    FormBirth query;
+            //    try
+            //    {
+            //        query = FormBirth.Birth(value);
 
-                    // Trigger validation using Data Annotations attributes from the HotelsQuery model
-                    List<ValidationResult> results = new List<ValidationResult>();
-                    bool valid = Validator.TryValidateObject(query, new ValidationContext(query, null, null), results, true);
-                    if (!valid)
-                    {
-                        // Some field in the Hotel Query are not valid
-                        var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
-                        await context.PostAsync("Please complete all the search parameters:\n" + errors);
-                        return;
-                    }
-                }
-                catch (InvalidCastException)
-                {
-                    // Hotel Query could not be parsed
-                    //await context.PostAsync("Please complete all the search parameters");
-                    await context.PostAsync("請填寫完整");
-                    await ShowOptionsAsync(context);
+            //        // Trigger validation using Data Annotations attributes from the HotelsQuery model
+            //        List<ValidationResult> results = new List<ValidationResult>();
+            //        bool valid = Validator.TryValidateObject(query, new ValidationContext(query, null, null), results, true);
+            //        if (!valid)
+            //        {
+            //            // Some field in the Hotel Query are not valid
+            //            var errors = string.Join("\n", results.Select(o => " - " + o.ErrorMessage));
+            //            await context.PostAsync("Please complete all the search parameters:\n" + errors);
+            //            return;
+            //        }
+            //    }
+            //    catch (InvalidCastException)
+            //    {
+            //        // Hotel Query could not be parsed
+            //        //await context.PostAsync("Please complete all the search parameters");
+            //        await context.PostAsync("請填寫完整");
+            //        await ShowOptionsAsync(context);
 
 
-                    return;
-                }
-                var queryform = FormBirth.Birth(message.Value);
-                birth = queryform.Checkin.Value.ToString("yyyy/MM/dd");
-                await context.PostAsync("身分驗證中...");
-                context.Done(context);
+            //        return;
+            //    }
+            //    var queryform = FormBirth.Birth(message.Value);
+            //    birth = queryform.Checkin.Value.ToString("yyyy/MM/dd");
+            //    await context.PostAsync("身分驗證中...");
+            //    context.Done(context);
 
-            }
+            //}
           
         }
 

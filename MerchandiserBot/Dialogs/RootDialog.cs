@@ -27,6 +27,7 @@ namespace MerchandiserBot.Dialogs
 
         public Task StartAsync(IDialogContext context)
         {
+            
             context.Wait(MessageReceivedAsync);
             
             return Task.CompletedTask;
@@ -39,7 +40,7 @@ namespace MerchandiserBot.Dialogs
             {
                 context.Call(new HomeDialog(), SendWelcomeMessageAsync);
                 SetBack2home(false);
-                SetOpen2home(false);
+                //SetOpen2home(false);
             }
             else
             {
