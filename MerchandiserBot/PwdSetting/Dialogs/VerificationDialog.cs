@@ -68,7 +68,7 @@ namespace MerchandiserBot.PwdSetting.Dialogs
                         return;
                     }
                 }
-                catch (InvalidCastException e)
+                catch (InvalidCastException)
                 {
                     // Hotel Query could not be parsed
                     //await context.PostAsync("Please complete all the search parameters");
