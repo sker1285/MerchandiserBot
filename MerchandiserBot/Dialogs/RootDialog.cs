@@ -44,6 +44,7 @@ namespace MerchandiserBot.Dialogs
             else
             {
                 await context.PostAsync("顯示選單請下指令～（例如：\"首頁\"、\"表單\"、\"累了\"...等）");
+                SetOpen2home(true);
                 context.Wait(MessageReceivedAsync);
             }
             
