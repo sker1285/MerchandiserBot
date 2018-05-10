@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MerchandiserBot.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
@@ -31,6 +32,7 @@ namespace MerchandiserBot.ProdSearch.Dialogs
                 ProdSearch_Selc = message.Text;
                 context.Done(context);
             }
+           
             else
             {
                 await context.PostAsync("無法辨識指令，請再次選擇您要進行的搜尋方式...");

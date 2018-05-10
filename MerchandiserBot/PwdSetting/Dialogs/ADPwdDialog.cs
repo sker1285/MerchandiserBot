@@ -50,6 +50,10 @@ namespace MerchandiserBot.PwdSetting.Dialogs
                 await context.PostAsync("密碼登入相關頁面如下");
                 context.Done(context);
             }
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done(context);
+            }
             else
             {
                 await context.PostAsync("請選擇表單中選項");

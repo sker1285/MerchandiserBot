@@ -19,12 +19,12 @@ namespace MerchandiserBot
     [BotAuthentication]
     public class MessagesController : ApiController
     {
-        static public List<Product> ltProd = GetJson.GetProdList("C:/Users/ER1285/source/repos/MerchandiserBot/MerchandiserBot/App_Data/product.json");
+        static public List<Product> ltProd = GetJson.GetProdList(ConfigurationManager.AppSettings["JsonPath"].ToString());
         /// <summary>
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
-        
+
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)
@@ -138,7 +138,7 @@ namespace MerchandiserBot
                     await connector.Conversations.ReplyToActivityAsync(reply);
                     ProdSearch.Dialogs.ProdSearch_KeywordDialog.setcheck();
                 }
-                else if (RootDialog.GetOpen2home())
+                else if (true)
                 {
                     ConnectorClient connector = new ConnectorClient(new Uri(activity.ServiceUrl));
                     string strLuisKey = ConfigurationManager.AppSettings["LUISAPIKey"].ToString();

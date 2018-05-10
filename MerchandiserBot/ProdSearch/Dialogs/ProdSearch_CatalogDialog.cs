@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MerchandiserBot.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
@@ -25,6 +26,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             if (result!=null && TextCheck(message.Text))
             {
                 ProdSearch_KeywordDialog.setKeyword(message.Text);
+                context.Done(context);
+            }
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
                 context.Done(context);
             }
             else

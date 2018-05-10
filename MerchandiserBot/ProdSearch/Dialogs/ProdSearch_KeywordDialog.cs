@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web;
+using MerchandiserBot.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
@@ -38,7 +39,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
                 setnonLuisKeyword(activity.Text);
                 context.Done(context);
             }
-
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done(context);
+            }
         }
 
         public static void setcheck()

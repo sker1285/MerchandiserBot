@@ -48,27 +48,55 @@ namespace MerchandiserBot.Dialogs
                 SetOpen2home(true);
                 context.Wait(MessageReceivedAsync);
             }
-            
+        }
 
+        public static void callhc(IDialogContext context)
+        {
+            //HomeCheck(context);
+        }
 
+        public async void HomeCheck(IDialogContext context)
+        {
+            if (Back2home)
+            {
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+                //SetOpen2home(false);
+            }
+            else
+            {
+                await context.PostAsync("顯示選單請下指令～（例如：\"首頁\"、\"表單\"、\"累了\"...等）");
+                SetOpen2home(true);
+                context.Wait(MessageReceivedAsync);
+            }
         }
 
         // HomeDialog
         private async Task SendWelcomeMessageAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            option = HomeDialog.getoption();
-            if (option.Equals("1")) //忘記密碼
+            if (Back2home)
             {
-                context.Call(new PwdSetting.Dialogs.ChoicePwdDialog(), ChoicePwdDialogsResumeAfter);
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+                //SetOpen2home(false);
             }
-            else if (option.Equals("2")) //商品搜尋
+            else
             {
-                context.Call(new ProdSearch.Dialogs.ProdSearchDialog(), ProdSearchDialogResumeAfter);
-            }
-            else if (option.Equals("3")) //推播訊息
-            {
+                option = HomeDialog.getoption();
+                if (option.Equals("1")) //忘記密碼
+                {
+                    context.Call(new PwdSetting.Dialogs.ChoicePwdDialog(), ChoicePwdDialogsResumeAfter);
+                }
+                else if (option.Equals("2")) //商品搜尋
+                {
+                    context.Call(new ProdSearch.Dialogs.ProdSearchDialog(), ProdSearchDialogResumeAfter);
+                }
+                else if (option.Equals("3")) //推播訊息
+                {
 
+                }
             }
+            
         }
 
 
@@ -79,7 +107,13 @@ namespace MerchandiserBot.Dialogs
         private async Task ChoicePwdDialogsResumeAfter(IDialogContext context, IAwaitable<string> result)
         {
             var msg = await result;
-            if ($"{msg}".Equals("AD"))
+            if (Back2home)  //回首頁
+            {
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+            }
+            else
+            { if ($"{msg}".Equals("AD"))
             {
                 PwdSetting.Dialogs.PwdResetDialog.setpwd("AD");
                 context.Call(new PwdSetting.Dialogs.ADPwdDialog(), PwdDialogResumeAfter);
@@ -93,7 +127,8 @@ namespace MerchandiserBot.Dialogs
             {
                 PwdSetting.Dialogs.PwdResetDialog.setpwd("AD");
                 context.Call(new PwdSetting.Dialogs.IdkPwdDialog(), PwdDialogResumeAfter);
-            }
+            }}
+                
 
         }
         //AD密碼和內網密碼頁面選擇結束
@@ -101,7 +136,13 @@ namespace MerchandiserBot.Dialogs
         {
 
             var msg = await result;
-            if ($"{msg}".Equals("goback"))  //如密碼類別選擇錯誤回上一頁
+            if (Back2home)  //回首頁
+            {
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+            }
+            else
+            { if ($"{msg}".Equals("goback"))  //如密碼類別選擇錯誤回上一頁
             {
                 context.Call(new PwdSetting.Dialogs.ChoicePwdDialog(), ChoicePwdDialogsResumeAfter);
             }
@@ -109,11 +150,20 @@ namespace MerchandiserBot.Dialogs
             {
                 context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
             }
+            }
+           
         }
         // 身分認證結束
         private async Task CertifiedDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {          
-            DataTable dt = new DbEntity().MerchandiserData(PwdSetting.Dialogs.CertifiedDialog.getId());
+        {
+            if (Back2home)  //回首頁
+            {
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+                //SetOpen2home(false);
+            }
+            else
+            {DataTable dt = new DbEntity().MerchandiserData(PwdSetting.Dialogs.CertifiedDialog.getId());
             if (dt.Rows.Count!=0)
             {
                 error = int.Parse(dt.Rows[0]["errortimes"].ToString());
@@ -131,14 +181,20 @@ namespace MerchandiserBot.Dialogs
             {
                 await context.PostAsync("查無此人");
                 context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
-            }
+            } }
+            
         }
 
         // 資料驗證結束
         private async Task VerificationDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-
-            bool Mcheck = PwdSetting.Dialogs.VerificationDialog.CheckMerchandiser();
+            if (Back2home)  //回首頁
+            {
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+            }
+            else
+            {bool Mcheck = PwdSetting.Dialogs.VerificationDialog.CheckMerchandiser();
             
             if (Mcheck)
             {
@@ -153,7 +209,8 @@ namespace MerchandiserBot.Dialogs
                 await context.PostAsync("身份驗證失敗!");
                 DataTable dt = new DbEntity().errortimes(error+1);
                 context.Call(new PwdSetting.Dialogs.CertifiedDialog(), CertifiedDialogResumeAfter);
-            }
+            } }
+            
 
 
         }
@@ -168,7 +225,12 @@ namespace MerchandiserBot.Dialogs
         //選擇商品搜尋方式 ---> 各自Dialog
         private async Task ProdSearchDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            prodOption = ProdSearch.Dialogs.ProdSearchDialog.GetProdSearchSelc();
+            if (Back2home)  //回首頁
+            {
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
+            }
+            else { prodOption = ProdSearch.Dialogs.ProdSearchDialog.GetProdSearchSelc();
             if (prodOption.Equals("險種分類"))
             {
                 context.Call(new ProdSearch.Dialogs.ProdSearch_CatalogDialog(), ProdSearchFormDialogResumeAfter);
@@ -177,7 +239,8 @@ namespace MerchandiserBot.Dialogs
             {
                 context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), ProdSearchFormDialogResumeAfter);
                 //context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), PS_KeywordDialogResumeAfter);
-            }
+            } }
+               
             
         }
 
@@ -199,22 +262,31 @@ namespace MerchandiserBot.Dialogs
 
         private async Task ProdSearchFormDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            if (ProdSearch.Dialogs.ProdSearchDialog.GetProdSearchSelc().Equals("關鍵字"))
+            if (Back2home)  //回首頁
             {
-                if (ProdSearch.Dialogs.ProdSearch_KeywordDialog.getLuisKWCheck())
-                {
-                    context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
-                }
-                else
-                {
-                    context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), ProdSearchFormDialogResumeAfter);
-                }
+                context.Call(new HomeDialog(), SendWelcomeMessageAsync);
+                SetBack2home(false);
             }
             else
             {
-                context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
+                if (ProdSearch.Dialogs.ProdSearchDialog.GetProdSearchSelc().Equals("關鍵字"))
+                {
+                    if (ProdSearch.Dialogs.ProdSearch_KeywordDialog.getLuisKWCheck())
+                    {
+                        context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
+                    }
+                    else
+                    {
+                        context.Call(new ProdSearch.Dialogs.ProdSearch_KeywordDialog(), ProdSearchFormDialogResumeAfter);
+                    }
+                }
+                else
+                {
+                    context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
+                }
+                //context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);}
             }
-            //context.Call(new ProdSearch.Dialogs.ProdSearch_ShowProdDialog(), ProdSearchShowProdDialogResumeAfter);
+            
         }
 
         private async Task ProdSearchShowProdDialogResumeAfter(IDialogContext context, IAwaitable<IMessageActivity> result)

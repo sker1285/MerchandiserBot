@@ -28,6 +28,10 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             {
 
             }
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done(context);
+            }
             else
             {
                 Id = message.Text;

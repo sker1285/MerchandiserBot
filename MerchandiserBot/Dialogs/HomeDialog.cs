@@ -48,6 +48,10 @@ namespace MerchandiserBot.Dialogs
                 option = "3";
                 context.Done(context);
             }
+            else if (RootDialog.GetBack2home())
+            {
+                context.Done(context);
+            }
             else
             {
                 await context.PostAsync("請選擇表單中選項");

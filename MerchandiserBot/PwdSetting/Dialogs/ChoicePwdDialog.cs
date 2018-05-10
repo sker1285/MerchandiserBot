@@ -1,4 +1,5 @@
 ﻿using AdaptiveCards;
+using MerchandiserBot.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System;
@@ -39,6 +40,10 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             {
                 await context.PostAsync("密碼登入相關頁面如下");
                 context.Done($"Idk");
+            }
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done("");
             }
             else
             {

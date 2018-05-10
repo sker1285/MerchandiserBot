@@ -32,7 +32,10 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             var message = await result;
             state = state + 1;           
 
-
+            if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done(context);
+            }
             if (state == 1 )
             {
                 IDnum = message.Text;

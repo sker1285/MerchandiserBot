@@ -39,7 +39,10 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             {
                 context.Done($"goback");
             }
-           
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done(context);
+            }
             else
             {
                 await context.PostAsync("請選擇表單中選項");

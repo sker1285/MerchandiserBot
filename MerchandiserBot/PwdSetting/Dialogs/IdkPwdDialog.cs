@@ -40,6 +40,10 @@ namespace MerchandiserBot.PwdSetting.Dialogs
                 await context.PostAsync("這是 [ 內 網 ] 密碼,將為您進行修改 ");
                 context.Done($"");
             }
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done(context);
+            }
             else
             {
                 var reply = context.MakeMessage();
