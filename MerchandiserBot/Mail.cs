@@ -28,9 +28,13 @@ namespace MerchandiserBot
         {
             try
             {
-                //PwdChange.wsPwdChangeSoapClient ws = new PwdChange.wsPwdChangeSoapClient();
-                //var result = ws.userPwdChange("","","","");
-                
+                PwdChange.wsPwdChangeSoapClient ws = new PwdChange.wsPwdChangeSoapClient();
+                var result = ws.userPwdChangeFO("EK3730", otp, "修改密碼");
+               
+
+
+
+
 
                 MailMessage mailMsg = new MailMessage();
                 mailMsg.IsBodyHtml = true;

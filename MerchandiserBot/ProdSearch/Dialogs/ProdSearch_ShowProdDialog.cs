@@ -36,6 +36,7 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             if (ProdSearchDialog.GetProdSearchSelc().Equals("關鍵字"))
             {
                 var result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword));
+                int count = 0;
                 if (Checkdata())
                 {
                     result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword) && x.Name.Contains(ProdSearch_KeywordDialog.getnonLuisKeyword()));
@@ -44,22 +45,33 @@ namespace MerchandiserBot.ProdSearch.Dialogs
                 List<Attachment> list = new List<Attachment>();
                 foreach (var item in result)
                 {
-                    list.Add(
-                        GetProduct(item.Name.ToString(), item.Cata.ToString() + "  " + item.PublishDate.ToString(), new CardImage(url: item.ImgURL.ToString()), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
-                        );
+                    if (count <10)
+                    {
+                        list.Add(
+                            GetProduct(item.Name.ToString(), item.Cata.ToString() + "  " + item.PublishDate.ToString(), new CardImage(url: item.ImgURL.ToString()), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
+                            );
+                    }
+                    count++;
                 }
+                count = 0;
                 return list;
             }
             else
             {
                 var result = MessagesController.ltProd.FindAll(x => x.Cata.Contains(keyword));
+                int count = 0;
                 List<Attachment> list = new List<Attachment>();
                 foreach (var item in result)
                 {
-                    list.Add(
-                        GetProduct(item.Name.ToString(), item.Cata.ToString() + "  " + item.PublishDate.ToString(), new CardImage(url: item.ImgURL.ToString()), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
-                        );
+                    if (count < 10)
+                    {
+                        list.Add(
+                            GetProduct(item.Name.ToString(), item.Cata.ToString() + "  " + item.PublishDate.ToString(), new CardImage(url: item.ImgURL.ToString()), new CardAction(ActionTypes.OpenUrl, "查看更多", value: item.DMURL.ToString()))
+                            );
+                    }
+                    count++;
                 }
+                count = 0;
                 return list;
             }
 

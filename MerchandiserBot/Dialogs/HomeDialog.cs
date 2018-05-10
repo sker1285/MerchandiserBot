@@ -19,12 +19,12 @@ namespace MerchandiserBot.Dialogs
             /* Wait until the first message is received from the conversation and call MessageReceviedAsync 
              *  to process that message. */
 
+            //呼叫ThumbnailCard
             var reply = context.MakeMessage();
-
             reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
             reply.Attachments = GetCardsMovie();
-
             await context.PostAsync(reply);
+
             context.Wait(this.MessageReceivedAsync);
 
 
@@ -43,7 +43,7 @@ namespace MerchandiserBot.Dialogs
                 option = "2";
                 context.Done(context);
             }
-            else if (message.Text.ToLower().Contains("推播訊息"))
+            else if (message.Text.ToLower().Contains("訂閱最新消息"))
             {
                 option = "3";
                 context.Done(context);
@@ -63,7 +63,7 @@ namespace MerchandiserBot.Dialogs
             {
                 GetThumbnailCard(
                     "  小光機器人",
-                    "你好~我是小光" +"\n\r"+"很高興為你服務",
+                    "你好~我是小光" +"\n"+"很高興為你服務",
                     null,
                     new CardImage(url: "https://www.energypark.org.tw/_admin/_upload/topGoal/GoalCom/245/photo4/%E6%96%B0%E5%85%89%E5%90%88%E7%BA%96LOGO.JPG"),
                     new List<CardAction>(){ new CardAction(ActionTypes.ImBack, "忘記密碼", value: "忘記密碼"),
@@ -72,17 +72,17 @@ namespace MerchandiserBot.Dialogs
             };
         }
 
-        private static Attachment GetHeroCard(CardImage cardImage, List<CardAction> cardAction)
-        {
-            var heroCard = new HeroCard
-            {
+        //private static Attachment GetHeroCard(CardImage cardImage, List<CardAction> cardAction)
+        //{
+        //    var heroCard = new HeroCard
+        //    {
 
-                Images = new List<CardImage>() { cardImage },
-                Buttons = cardAction,
-            };
+        //        Images = new List<CardImage>() { cardImage },
+        //        Buttons = cardAction,
+        //    };
 
-            return heroCard.ToAttachment();
-        }
+        //    return heroCard.ToAttachment();
+        //}
 
         private static Attachment GetThumbnailCard(string title, string subtitle, string text, CardImage cardImage, List<CardAction> cardAction)
         {

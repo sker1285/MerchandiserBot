@@ -14,10 +14,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
-            var msg = context.MakeMessage();
-            var attachment = GetMenu();
-            msg.Attachments.Add(attachment);
-            await context.PostAsync(msg);
+           var reply = context.MakeMessage();
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                reply.Attachments = GetMenu();
+                await context.PostAsync(reply);
 
             context.Wait(MessageReceivedAsync);
 
@@ -39,10 +39,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             else
             {
                 await context.PostAsync("無法辨識指令，請再次選擇您要進行的搜尋方式...");
-                var msg = context.MakeMessage();
-                var attachment = GetMenu();
-                msg.Attachments.Add(attachment);
-                await context.PostAsync(msg);
+                var reply = context.MakeMessage();
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                reply.Attachments = GetMenu();
+                await context.PostAsync(reply);
 
                 context.Wait(MessageReceivedAsync);
             }
@@ -50,19 +50,46 @@ namespace MerchandiserBot.ProdSearch.Dialogs
             // TODO: Put logic for handling user message here
         }
 
-        private static Attachment GetMenu()
+        //private static Attachment GetMenu()
+        //{
+        //    var heroCard = new ThumbnailCard
+        //    {
+        //        Title = "商品搜尋",
+        //        Subtitle = "請選擇您要進行的搜尋方式...",
+        //        Buttons = new List<CardAction>() {
+        //            new CardAction(ActionTypes.ImBack, "險種分類", value: "險種分類"),
+        //            new CardAction(ActionTypes.ImBack, "關鍵字", value: "關鍵字") }
+        //    };
+
+        //    return heroCard.ToAttachment();
+
+        //}
+
+        public static IList<Attachment> GetMenu()
         {
-            var heroCard = new HeroCard
+            return new List<Attachment>()
             {
-                Title = "商品搜尋",
-                Subtitle = "請選擇您要進行的搜尋方式...",
-                Buttons = new List<CardAction>() {
-                    new CardAction(ActionTypes.ImBack, "險種分類", value: "險種分類"),
-                    new CardAction(ActionTypes.ImBack, "關鍵字", value: "關鍵字") }
+                GetThumbnailCard(
+                    "商品搜尋",
+                    "請選擇您要進行的搜尋方式...",
+                    null,  
+                    null,
+                    new List<CardAction>(){ new CardAction(ActionTypes.ImBack, "險種分類", value: "險種分類"),
+                    new CardAction(ActionTypes.ImBack, "關鍵字", value: "關鍵字") }),
+            };
+        }
+        private static Attachment GetThumbnailCard(string title, string subtitle, string text, CardImage cardImage, List<CardAction> cardAction)
+        {
+            var heroCard = new ThumbnailCard
+            {
+                Title = title,
+                Subtitle = subtitle,
+                Text = text,
+                Images = new List<CardImage>() { cardImage },
+                Buttons = cardAction,
             };
 
             return heroCard.ToAttachment();
-
         }
 
         public static string GetProdSearchSelc()

@@ -138,7 +138,7 @@ namespace MerchandiserBot.Dialogs
                 using (var cmd = dbConn.CreateCommand())
                 {
                     cmd.CommandText = 
-                        $"select * from Merchandiser where Id = '{id}' and IdentityNum = '{idnum}' and Birth = '{birth}'";
+                        $"select * from Merchandiser where Id = '{id}' and IdentityNum = '{idnum}' ";
                     var dt = new DataTable();
                     var adapter = new SqlDataAdapter(cmd);
                     adapter.Fill(dt);
