@@ -32,7 +32,10 @@ namespace MerchandiserBot.ProdSearch.Dialogs
                 ProdSearch_Selc = message.Text;
                 context.Done(context);
             }
-           
+            else if (RootDialog.GetBack2home()) //回首頁
+            {
+                context.Done(context);
+            }
             else
             {
                 await context.PostAsync("無法辨識指令，請再次選擇您要進行的搜尋方式...");
