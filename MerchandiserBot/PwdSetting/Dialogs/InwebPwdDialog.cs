@@ -21,8 +21,8 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             await context.PostAsync(reply);
 
             var msg = context.MakeMessage();
-            var attachment = Getback();
-            msg.Attachments.Add(attachment);
+            msg.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+            msg.Attachments = GetBack();
             await context.PostAsync(msg);
 
             context.Wait(this.MessageReceivedAsync);
@@ -79,17 +79,43 @@ namespace MerchandiserBot.PwdSetting.Dialogs
             return heroCard.ToAttachment();
         }
 
-        private static Attachment Getback()
+        public static IList<Attachment> GetBack()
         {
-            var heroCard = new HeroCard
+            return new List<Attachment>()
             {
-                Title = "如上圖無須修改密碼之頁面請點選此按鈕",
-                Buttons = new List<CardAction>() { new CardAction(ActionTypes.ImBack, "回上一步驟", value: "回上一步驟")
-                    }
+                GetThumbnailCard(
+                    "如上圖無須修改密碼之頁面請點選此按鈕",
+                    null,
+                    null,
+                    null,
+                    new List<CardAction>(){
+                        new CardAction(ActionTypes.ImBack, "回上一步驟", value: "回上一步驟")    }),
+            };
+        }
+        private static Attachment GetThumbnailCard(string title, string subtitle, string text, CardImage cardImage, List<CardAction> cardAction)
+        {
+            var heroCard = new ThumbnailCard
+            {
+                Title = title,
+                Subtitle = subtitle,
+                Text = text,
+                Images = new List<CardImage>() { cardImage },
+                Buttons = cardAction,
             };
 
             return heroCard.ToAttachment();
-
         }
+        //private static Attachment Getback()
+        //{
+        //    var heroCard = new HeroCard
+        //    {
+        //        Title = "如上圖無須修改密碼之頁面請點選此按鈕",
+        //        Buttons = new List<CardAction>() { new CardAction(ActionTypes.ImBack, "回上一步驟", value: "回上一步驟")
+        //            }
+        //    };
+
+        //    return heroCard.ToAttachment();
+
+        //}
     }
 }

@@ -21,6 +21,9 @@ namespace MerchandiserBot.PwdSetting.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
+            var msg = context.MakeMessage();
+            msg.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+           
             DateTime localDate = DateTime.Now;
             string now = localDate.ToString("yyyy/MM/dd HH:mm:ss");
             if (pwd.Equals("AD"))
@@ -28,7 +31,8 @@ namespace MerchandiserBot.PwdSetting.Dialogs
                 DataTable dt = new DbEntity().PwdRecord(PwdSetting.Dialogs.CertifiedDialog.getId(), now, "ADPwd");
                 await context.PostAsync("AD密碼已重設，請至信箱收取");
                 SendEmail();
-                await ShowOptionsAsync(context);
+                msg.Attachments = ShowOptionsAsync();
+                await context.PostAsync(msg);
                 context.Done(context);
             }
             else if (pwd.Equals("內網"))
@@ -36,7 +40,8 @@ namespace MerchandiserBot.PwdSetting.Dialogs
                 DataTable dt = new DbEntity().PwdRecord(PwdSetting.Dialogs.CertifiedDialog.getId(), now, "InwebPwd");
                 await context.PostAsync("內網密碼已重設，請至信箱收取");
                 SendEmail();
-                await ShowOptionsAsync(context);
+                msg.Attachments = ShowOptionsAsync();
+                await context.PostAsync(msg);
                 context.Done(context);
             }
 
@@ -51,53 +56,80 @@ namespace MerchandiserBot.PwdSetting.Dialogs
         }
 
 
-
-        private async Task ShowOptionsAsync(IDialogContext context)
+        public static IList<Attachment> ShowOptionsAsync()
         {
-            var card = new AdaptiveCard();
-            var columnsBlock = new ColumnSet()
+            return new List<Attachment>()
             {
-                Separation = SeparationStyle.Default,
-                Columns = new List<Column>
-                {
-                  new Column
-                  {
-                    Size = "1",
-                    Items = new List<CardElement>
-                    {
-                      new TextBlock
-                      {
-                        Text = "收取信件後，請前往登入並 [修改密碼] ",
-                        Weight = TextWeight.Bolder,
-                        Size = TextSize.Large,
-                        Wrap = true,
-                      }
-                      }
-                      },
-                       },
-                        };
-            card.Body.Add(columnsBlock);
-            card.Actions = new List<ActionBase>()
-            {
-                new OpenUrlAction
-                {
-                  Title = "前往登入",
-                  Url = "http://sklweb.skl.com.tw/MainWeb/IntraNet/Main_Page/Main/default.aspx",
-                }
+                GetThumbnailCard(
+                    "收取信件後，請前往登入並 [修改密碼]",
+                    null,
+                    null,
+                    null,
+                    new List<CardAction>(){
+                        new CardAction(ActionTypes.OpenUrl, "前往登入", value: "https://salesnet.skl.com.tw/SalesWeb/")    }),
             };
-
-            Attachment attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = card
-            };
-
-            var reply = context.MakeMessage();
-            reply.Attachments.Add(attachment);
-
-            await context.PostAsync(reply, CancellationToken.None);
-
         }
+        private static Attachment GetThumbnailCard(string title, string subtitle, string text, CardImage cardImage, List<CardAction> cardAction)
+        {
+            var heroCard = new ThumbnailCard
+            {
+                Title = title,
+                Subtitle = subtitle,
+                Text = text,
+                Images = new List<CardImage>() { cardImage },
+                Buttons = cardAction,
+            };
+
+            return heroCard.ToAttachment();
+        }
+
+
+        //private async Task ShowOptionsAsync(IDialogContext context)
+        //{
+        //    var card = new AdaptiveCard();
+        //    var columnsBlock = new ColumnSet()
+        //    {
+        //        Separation = SeparationStyle.Default,
+        //        Columns = new List<Column>
+        //        {
+        //          new Column
+        //          {
+        //            Size = "1",
+        //            Items = new List<CardElement>
+        //            {
+        //              new TextBlock
+        //              {
+        //                Text = "收取信件後，請前往登入並 [修改密碼] ",
+        //                Weight = TextWeight.Bolder,
+        //                Size = TextSize.Large,
+        //                Wrap = true,
+        //              }
+        //              }
+        //              },
+        //               },
+        //                };
+        //    card.Body.Add(columnsBlock);
+        //    card.Actions = new List<ActionBase>()
+        //    {
+        //        new OpenUrlAction
+        //        {
+        //          Title = "前往登入",
+        //          Url = "http://sklweb.skl.com.tw/MainWeb/IntraNet/Main_Page/Main/default.aspx",
+        //        }
+        //    };
+
+        //    Attachment attachment = new Attachment()
+        //    {
+        //        ContentType = AdaptiveCard.ContentType,
+        //        Content = card
+        //    };
+
+        //    var reply = context.MakeMessage();
+        //    reply.Attachments.Add(attachment);
+
+        //    await context.PostAsync(reply, CancellationToken.None);
+
+        //}
 
         public static void setpwd(string n)
         {
